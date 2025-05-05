@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace Plane.Gameplay
 {
-    public class PlayerPlane : MonoBehaviour
+    public class PlayerPlane : NetworkBehaviour
     {
         public Vector2 m_Angle = Vector2.zero;
         public Transform m_Base;
@@ -100,6 +101,14 @@ namespace Plane.Gameplay
 
         }
 
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                Destroy(this.GetComponentInChildren<Camera>());
+            }
+            base.OnNetworkSpawn();
+        }
 
     }
 }
