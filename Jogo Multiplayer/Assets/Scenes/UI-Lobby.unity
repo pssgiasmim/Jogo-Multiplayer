@@ -621,10 +621,10 @@ RectTransform:
   - {fileID: 986797894}
   m_Father: {fileID: 291683145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.60466665, y: 0.1652963}
-  m_AnchorMax: {x: 0.88272923, y: 0.3357408}
-  m_AnchoredPosition: {x: 0, y: -0.000061035156}
-  m_SizeDelta: {x: 0, y: 0.000030518}
+  m_AnchorMin: {x: 0.36947918, y: 0.307}
+  m_AnchorMax: {x: 0.63000005, y: 0.44440737}
+  m_AnchoredPosition: {x: 0.000061035, y: -0.000030518}
+  m_SizeDelta: {x: -0.00012207, y: -0.000061035}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &198076318
 MonoBehaviour:
@@ -1326,10 +1326,10 @@ RectTransform:
   - {fileID: 248942911}
   m_Father: {fileID: 291683145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.60466665, y: 0.52400005}
-  m_AnchorMax: {x: 0.88272923, y: 0.708}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.3778125, y: 0.5}
+  m_AnchorMax: {x: 0.63000005, y: 0.66440743}
+  m_AnchoredPosition: {x: -7.9975, y: 0}
+  m_SizeDelta: {x: 15.995, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &894286115
 MonoBehaviour:
@@ -1922,8 +1922,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2127,10 +2127,10 @@ RectTransform:
   - {fileID: 1483234247}
   m_Father: {fileID: 291683145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.15810418, y: 0.1652963}
-  m_AnchorMax: {x: 0.42900002, y: 0.3357408}
-  m_AnchoredPosition: {x: 0, y: -0.00012207031}
-  m_SizeDelta: {x: 0, y: -0.000091553}
+  m_AnchorMin: {x: 0.36947918, y: 0.13281481}
+  m_AnchorMax: {x: 0.63000005, y: 0.256}
+  m_AnchoredPosition: {x: 0.000061035, y: -0.00024033}
+  m_SizeDelta: {x: -0.00012207, y: 0.00050354}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1645047446
 MonoBehaviour:
@@ -2326,8 +2326,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8046f7c6da5e61948bedf3b7173d9521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textoCodigo: {fileID: 660785564}
-  inputFieldtextoInserido: {fileID: 0}
+  botaoInicia: {fileID: 0}
+  lobbyList: []
+  TextoCodigo: {fileID: 0}
+  inputFieldInseriCodigo: {fileID: 0}
+  InputNome: {fileID: 0}
+  iniciouOJogo: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
