@@ -83,7 +83,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.multiplayer.samples.coop": {
-      "version": "file:C:/Users/Usuario/Desktop/com.unity.multiplayer.samples.coop-main/com.unity.multiplayer.samples.coop-main/Packages/com.unity.multiplayer.samples.coop",
+      "version": "file:C:/Users/iasmim.passing/Downloads/com.unity.multiplayer.samples.coop-main/com.unity.multiplayer.samples.coop-main/Packages/com.unity.multiplayer.samples.coop",
       "depth": 0,
       "source": "local",
       "dependencies": {
