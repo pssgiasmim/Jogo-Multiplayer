@@ -107,7 +107,18 @@ namespace Plane.Gameplay
             {
                 Destroy(this.GetComponentInChildren<Camera>());
             }
+            else
+            {
+                GetComponent<Rigidbody>().isKinematic = true;
+                Invoke("AlteraPos", 3f);
+            }
             base.OnNetworkSpawn();
+        }
+
+        public void AlteraPos()
+        {
+            this.gameObject.transform.position = new Vector3(15, 5, 0);
+            GetComponent<Rigidbody>().isKinematic = false;
         }
 
     }
