@@ -174,19 +174,28 @@ public class LobbyManager : MonoBehaviour
     async Task<string> CriaRelay()
     {
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(20);
+
         string codigoAloc = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+
         RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
+
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
         NetworkManager.Singleton.StartHost();
+
         return codigoAloc;
     }
 
     async void entraRelay(string codigoDeAlocação)
     {
         JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(codigoDeAlocação);
+
         RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
+
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
         NetworkManager.Singleton.StartClient();
+
         CancelInvoke("verificaUpdate");
     }
 
@@ -208,9 +217,13 @@ public class LobbyManager : MonoBehaviour
         });
 
         joinedLobby = lobby;
+
         CancelInvoke("verificaUpdate");
+
         CancelInvoke("enviaPing");
+
         iniciouOJogo = true;
+
         NetworkManager.Singleton.SceneManager.LoadScene("MainScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 }
