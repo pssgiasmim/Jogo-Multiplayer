@@ -106,6 +106,7 @@ namespace Plane.Gameplay
             if (!IsOwner)
             {
                 Destroy(this.GetComponentInChildren<Camera>());
+                Destroy(this);
             }
             else
             {
