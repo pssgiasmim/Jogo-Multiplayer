@@ -224,6 +224,6 @@ public class LobbyManager : MonoBehaviour
 
         iniciouOJogo = true;
 
-        NetworkManager.Singleton.SceneManager.LoadScene("MainScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("Level_1", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 }
