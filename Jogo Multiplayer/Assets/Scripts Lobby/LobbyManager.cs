@@ -147,7 +147,7 @@ public class LobbyManager : MonoBehaviour
                 joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(inputFieldInseriCodigo.text, lobbyOptions);
                 //linha abaixo caso queira que o client veja o codigo da sala  
                 TextoCodigo.text = joinedLobby.LobbyCode;
-                InvokeRepeating("verificaUpdate", 3, 3);
+                InvokeRepeating("verificaUpdate", 1, 2);
 
 
             }
