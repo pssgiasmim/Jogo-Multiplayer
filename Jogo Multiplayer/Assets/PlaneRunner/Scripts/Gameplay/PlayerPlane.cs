@@ -92,8 +92,14 @@ namespace Plane.Gameplay
                     obj.transform.position = transform.position;
                 }
 
-                GameControl.m_Current.HandleGameOver();
+                if (IsOwner)
+                {
+                    GameManager.Instance.ReportDeath(GetComponent<NetworkObject>());
+                }
                 gameObject.SetActive(false);
+
+                //GameControl.m_Current.HandleGameOver();
+                //gameObject.SetActive(false);
                 break;
 
             }

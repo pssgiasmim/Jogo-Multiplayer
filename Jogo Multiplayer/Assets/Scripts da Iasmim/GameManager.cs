@@ -7,8 +7,8 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
-    public GameObject gameOverUI;
-    public GameObject victoryUI;
+    public GameObject Lose_UI;
+    public GameObject Win_UI;
 
     // Lista dos aviões vivos (sincronizado entre todos os clientes)
     private List<NetworkObject> alivePlanes = new List<NetworkObject>();
@@ -60,8 +60,8 @@ public class GameManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.LocalClientId == clientId)
         {
-            if (gameOverUI != null)
-                gameOverUI.SetActive(true);
+            if (Lose_UI != null)
+                Lose_UI.SetActive(true);
         }
     }
 
@@ -70,8 +70,8 @@ public class GameManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.LocalClientId == clientId)
         {
-            if (victoryUI != null)
-                victoryUI.SetActive(true);
+            if (Win_UI != null)
+                Win_UI.SetActive(true);
         }
     }
 }
