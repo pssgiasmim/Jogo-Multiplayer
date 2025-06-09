@@ -55,7 +55,7 @@ public class LobbyManager : MonoBehaviour
                     { "StartGame",new DataObject(DataObject.VisibilityOptions.Member,"0")}
                 }
             };
-            hostLobby = await LobbyService.Instance.CreateLobbyAsync("Nome", 20, LobbyName);
+            hostLobby = await LobbyService.Instance.CreateLobbyAsync("Nome", 5, LobbyName);
             joinedLobby = hostLobby;
             TextoCodigo.text = hostLobby.LobbyCode;
             //fica chamando a cada sec  
