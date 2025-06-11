@@ -11,7 +11,7 @@ namespace Plane.Gameplay
         public Vector2 m_Angle = Vector2.zero;
         public Transform m_Base;
         Vector2 m_TurnSpeed = Vector2.zero;
-
+        public GameObject Lose_UI, Win_UI;
 
         public GameObject m_ExplodeParticle;
 

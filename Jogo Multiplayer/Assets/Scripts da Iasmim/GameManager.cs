@@ -45,7 +45,7 @@ public class GameManager : NetworkBehaviour
             alivePlanes.Remove(deadPlane);
 
         // Notifica o cliente do avião morto para exibir a tela de Game Over
-        SendGameOverClientRpc(deadPlane.OwnerClientId);
+        SendGameOverClientRpc(deadPlane);
 
         // Se só sobrou um...
         if (alivePlanes.Count == 1)
@@ -56,23 +56,24 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    void SendGameOverClientRpc(ulong clientId)
+    void SendGameOverClientRpc(NetworkObject deadPlane)
     {
-        if (NetworkManager.Singleton.LocalClientId == clientId)
-        {
-            if (Lose_UI != null)
-                Lose_UI.SetActive(true);
-        }
+        deadPlane.gameObject.GetComponent<PlayerPlane>().Lose_UI.SetActive(true);
+            //if (Lose_UI != null)
+            //clientId.Lose_UI.SetActive(true);
+
     }
 
     [ClientRpc]
-    void SendVictoryClientRpc(ulong clientId)
+    void SendVictoryClientRpc(NetworkObject winner)
     {
-        if (NetworkManager.Singleton.LocalClientId == clientId)
-        {
-            if (Win_UI != null)
-                Win_UI.SetActive(true);
-        }
+        winner.gameObject.GetComponent<PlayerPlane>().Win_UI.SetActive(true);
+        
+        //if (NetworkManager.Singleton.LocalClientId == clientId)
+        //{
+            //if (Win_UI != null)
+                //Win_UI.SetActive(true);
+        //}
     }
 }
 
