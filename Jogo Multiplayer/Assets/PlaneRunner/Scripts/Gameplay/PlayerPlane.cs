@@ -106,6 +106,10 @@ namespace Plane.Gameplay
 
 
         }
+        private void OnCollisionEnter(Collision collision)
+        {
+            
+        }
 
         public override void OnNetworkSpawn()
         {

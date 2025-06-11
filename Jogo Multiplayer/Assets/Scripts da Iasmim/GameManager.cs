@@ -39,7 +39,7 @@ public class GameManager : NetworkBehaviour
     // Chamado por um PlayerPlane quando morre
     public void ReportDeath(NetworkObject deadPlane)
     {
-        if (!IsServer) return;
+       //if (!IsServer) return;
 
         if (alivePlanes.Contains(deadPlane))
             alivePlanes.Remove(deadPlane);
