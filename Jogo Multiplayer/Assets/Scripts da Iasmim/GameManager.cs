@@ -64,7 +64,7 @@ public class GameManager : NetworkBehaviour
 
     }
 
-
+    [ClientRpc]
     public void SendVictoryClientRpc(NetworkObject winner)
     {
         winner.gameObject.GetComponent<PlayerPlane>().Win_UI.SetActive(true);
