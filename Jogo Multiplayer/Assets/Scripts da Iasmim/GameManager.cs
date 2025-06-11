@@ -51,12 +51,12 @@ public class GameManager : NetworkBehaviour
         if (alivePlanes.Count == 1)
         {
             NetworkObject winner = alivePlanes[0];
-            SendVictoryClientRpc(winner.OwnerClientId);
+            SendVictoryClientRpc(alivePlanes[0]);
         }
     }
 
-    [ClientRpc]
-    void SendGameOverClientRpc(NetworkObject deadPlane)
+    
+    public void SendGameOverClientRpc(NetworkObject deadPlane)
     {
         deadPlane.gameObject.GetComponent<PlayerPlane>().Lose_UI.SetActive(true);
             //if (Lose_UI != null)
@@ -64,8 +64,8 @@ public class GameManager : NetworkBehaviour
 
     }
 
-    [ClientRpc]
-    void SendVictoryClientRpc(NetworkObject winner)
+
+    public void SendVictoryClientRpc(NetworkObject winner)
     {
         winner.gameObject.GetComponent<PlayerPlane>().Win_UI.SetActive(true);
         
