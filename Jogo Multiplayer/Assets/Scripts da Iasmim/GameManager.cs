@@ -10,7 +10,7 @@ public class GameManager : NetworkBehaviour
     public GameObject Lose_UI;
     public GameObject Win_UI;
 
-    // Lista dos aviões vivos (sincronizado entre todos os clientes)
+    // Lista dos aviões vivos
     private List<NetworkObject> alivePlanes = new List<NetworkObject>();
 
     private void Awake()
@@ -22,7 +22,7 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            // Espera todos os jogadores spawnarem e registra os aviões
+            // Espera os jogadores spawnarem
             Invoke("RegisterAllPlanes", 1f);
         }
     }
@@ -36,44 +36,44 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    // Chamado por um PlayerPlane quando morre
+    // Chamado por um PlayerPlane ao morrer
     public void ReportDeath(NetworkObject deadPlane)
     {
-       //if (!IsServer) return;
+        if (!IsServer) return;
 
         if (alivePlanes.Contains(deadPlane))
             alivePlanes.Remove(deadPlane);
 
-        // Notifica o cliente do avião morto para exibir a tela de Game Over
-        SendGameOverClientRpc(deadPlane);
+        // Envia só para o cliente que morreu
+        SendGameOverClientRpc(deadPlane.OwnerClientId);
 
-        // Se só sobrou um...
+        // Se só sobrou 1 avião vivo
         if (alivePlanes.Count == 1)
         {
-            NetworkObject winner = alivePlanes[0];
-            SendVictoryClientRpc(alivePlanes[0]);
+            var winner = alivePlanes[0];
+            SendVictoryClientRpc(winner.OwnerClientId);
         }
     }
 
-    
-    public void SendGameOverClientRpc(NetworkObject deadPlane)
+    // RPC: Mostra Game Over para o jogador que morreu
+    [ClientRpc]
+    void SendGameOverClientRpc(ulong deadClientId, ClientRpcParams rpcParams = default)
     {
-        deadPlane.gameObject.GetComponent<PlayerPlane>().Lose_UI.SetActive(true);
-            //if (Lose_UI != null)
-            //clientId.Lose_UI.SetActive(true);
-
+        if (NetworkManager.Singleton.LocalClientId == deadClientId)
+        {
+            if (Lose_UI != null)
+                Lose_UI.SetActive(true);
+        }
     }
 
+    // RPC: Mostra Vitória para o último jogador
     [ClientRpc]
-    public void SendVictoryClientRpc(NetworkObject winner)
+    void SendVictoryClientRpc(ulong winnerClientId, ClientRpcParams rpcParams = default)
     {
-        winner.gameObject.GetComponent<PlayerPlane>().Win_UI.SetActive(true);
-        
-        //if (NetworkManager.Singleton.LocalClientId == clientId)
-        //{
-            //if (Win_UI != null)
-                //Win_UI.SetActive(true);
-        //}
+        if (NetworkManager.Singleton.LocalClientId == winnerClientId)
+        {
+            if (Win_UI != null)
+                Win_UI.SetActive(true);
+        }
     }
 }
-
