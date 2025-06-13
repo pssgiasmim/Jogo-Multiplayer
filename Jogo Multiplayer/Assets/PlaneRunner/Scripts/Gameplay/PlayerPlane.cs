@@ -32,6 +32,8 @@ namespace Plane.Gameplay
         // Update is called once per frame
         void Update()
         {
+            if (!IsOwner) return;
+
             float InputX = 0, InputY = 0;
             if (Input.GetKey(KeyCode.LeftArrow))
             {
@@ -115,8 +117,8 @@ namespace Plane.Gameplay
         {
             if (!IsOwner)
             {
-                Destroy(this.GetComponentInChildren<Camera>());
-                Destroy(this);
+                Destroy(this.GetComponentInChildren<Camera>().gameObject);
+                //Destroy(this);
             }
             else
             {
