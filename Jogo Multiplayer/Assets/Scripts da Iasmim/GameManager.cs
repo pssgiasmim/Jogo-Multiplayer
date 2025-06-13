@@ -13,6 +13,9 @@ public class GameManager : NetworkBehaviour
     // Lista dos aviões vivos
     private List<NetworkObject> alivePlanes = new List<NetworkObject>();
 
+    
+    
+
     private void Awake()
     {
         Instance = this;
@@ -34,7 +37,12 @@ public class GameManager : NetworkBehaviour
         {
             alivePlanes.Add(plane.GetComponent<NetworkObject>());
         }
+
+       
+
     }
+
+    
 
     // Chamado por um PlayerPlane ao morrer
     public void ReportDeath(NetworkObject deadPlane)
