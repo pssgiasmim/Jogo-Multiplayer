@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Core;
@@ -186,9 +186,9 @@ public class LobbyManager : MonoBehaviour
         return codigoAloc;
     }
 
-    async void entraRelay(string codigoDeAlocaÁ„o)
+    async void entraRelay(string codigoDeAloca√ß√£o)
     {
-        JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(codigoDeAlocaÁ„o);
+        JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(codigoDeAloca√ß√£o);
 
         RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
 
@@ -223,6 +223,15 @@ public class LobbyManager : MonoBehaviour
         CancelInvoke("enviaPing");
 
         iniciouOJogo = true;
+
+        StartCoroutine(DelayParaComecarJogo());
+        //NetworkManager.Singleton.SceneManager.LoadScene("Level_1", UnityEngine.SceneManagement.LoadSceneMode.Single);
+    }
+
+    IEnumerator DelayParaComecarJogo()
+    {
+        Debug.Log("Esperando 3 segundos antes de iniciar...");
+        yield return new WaitForSeconds(3f); // ‚è≥ Troque o n√∫mero se quiser mais ou menos tempo
 
         NetworkManager.Singleton.SceneManager.LoadScene("Level_1", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }

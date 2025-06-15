@@ -124,41 +124,43 @@ namespace Plane.Gameplay
             }
             else
             {
-                /*
+                if (IsServer)
+                {
+                    /*
                 GetComponent<Rigidbody>().isKinematic = true;
                 Invoke("AlteraPos", 3f);
                 */
 
-                // Corrigido: usar dicionário para obter índice do jogador
-                int index = 0;
-                foreach (var kvp in NetworkManager.Singleton.ConnectedClients)
-                {
-                    if (kvp.Key == OwnerClientId)
-                        break;
-                    index++;
-                }
+                    // Corrigido: usar dicionário para obter índice do jogador
+                    int index = 0;
+                    foreach (var kvp in NetworkManager.Singleton.ConnectedClients)
+                    {
+                        if (kvp.Key == OwnerClientId)
+                            break;
+                        index++;
+                    }
 
-                // Posições pré-definidas para até 4 jogadores
-                Vector3[] posicoesIniciais = new Vector3[]
-                {
+                    // Posições pré-definidas para até 4 jogadores
+                    Vector3[] posicoesIniciais = new Vector3[]
+                    {
                        new Vector3(-15, 10, 0),
                        new Vector3(15, 10, 0),
                        new Vector3(-15, 25, 0),
                        new Vector3(15, 25, 0)
-                };
+                    };
 
-                if (index >= 0 && index < posicoesIniciais.Length)
-                {
-                    transform.position = posicoesIniciais[index];
+                    if (index >= 0 && index < posicoesIniciais.Length)
+                    {
+                        transform.position = posicoesIniciais[index];
+                    }
+                    else
+                    {
+                        transform.position = new Vector3(0, 15, 0); // posição fallback
+                    }
                 }
-                else
-                {
-                    transform.position = new Vector3(0, 15, 0); // posição fallback
-                }
-
+                
                 GetComponent<Rigidbody>().isKinematic = false;
 
-                
             }
             base.OnNetworkSpawn();
         }

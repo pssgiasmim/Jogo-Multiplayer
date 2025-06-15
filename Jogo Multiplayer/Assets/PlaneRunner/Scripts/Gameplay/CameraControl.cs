@@ -66,71 +66,91 @@ namespace Plane.Gameplay
         // Update is called once per frame
         void LateUpdate()
         {
-            Vector3 finalPosition = Vector3.zero;
-            Quaternion finalRotation = Quaternion.identity;
-
-            Vector3 ShakeOffset = Vector3.zero;
+            // Declara e calcula ShakeOffset aqui
             float shakeSin = Mathf.Cos(30 * Time.time) * Mathf.Clamp(m_ShakeTimer, 0, 0.5f);
             float shakeCos = Mathf.Sin(50 * Time.time) * Mathf.Clamp(m_ShakeTimer, 0, 0.5f);
-            ShakeOffset = new Vector3(m_ShakeRadius * shakeCos, 0, m_ShakeRadius * shakeSin);
+            Vector3 ShakeOffset = new Vector3(m_ShakeRadius * shakeCos, 0, m_ShakeRadius * shakeSin);
 
-
-
-
-            //if (GameControl.m_Current.m_GameState == GameControl.State_Start)
-            //{
-            //    m_CameraMoveLerp += 0.5f * Time.deltaTime;
-            //    m_CameraMoveLerp = Mathf.Clamp(m_CameraMoveLerp, 0, 1);
-            //    Vector3 camPos = new Vector3(0, 3.5f, -20f+ m_CameraMoveLerp*10);
-            //    m_CamOffset = Vector3.Lerp(m_CamOffset, camPos, m_CameraMoveLerp);
-            //    GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 70, 5 * Time.deltaTime);
-
-            //    transform.position = PlayerCar.m_Current.transform.position + m_CamOffset + ShakeOffset;
-            //}
-            //if (GameControl.m_Current.m_GameState == GameControl.State_Win)
-            //{
-                //print("win");
-                //m_CameraMoveLerp += 0.2f * Time.deltaTime;
-                //m_CameraMoveLerp = Mathf.Clamp(m_CameraMoveLerp, 0, 1);
-                //Vector3 camPos = new Vector3(0, 3.5f, -6f);
-                //m_CamOffset = Vector3.Lerp(camPos, new Vector3(0, 5.5f, -20f), m_CameraMoveLerp);
-                //GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 50, 1 * Time.deltaTime);
-
-                //transform.position += 30*Time.deltaTime * Vector3.forward;
-
-                //Vector3 camPos = EnemyCar.m_Current.m_WreckObject.transform.position+ new Vector3(0, 3.5f, -12f);
-                //transform.position = Vector3.Lerp(transform.position, camPos, .04f);
-            //}
-            //else
-            //{
-                //if (m_CameraMod == 1)
-                //{
-                //    Vector3 camPos = new Vector3(0, 2.5f, -6.5f);
-                //    m_CamOffset = Vector3.Lerp(m_CamOffset, camPos, 5 * Time.deltaTime);
-                //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(11, 0, 0), 40 * Time.deltaTime);
-                //    GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 60, 5 * Time.deltaTime);
-                //}
-                //else
-                //{
-                //    Vector3 camPos = new Vector3(0, 3.0f, -8.5f);
-                //    //camPos.x = -0.8f*transform.position.x;
-                //    m_CamOffset = Vector3.Lerp(m_CamOffset, camPos, 5 * Time.deltaTime);
-                //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(5, 0, 0), 40 * Time.deltaTime);
-                //    GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 80, 5 * Time.deltaTime);
-                //}
-
-               
-            //}
+            if (PlayerPlane.m_Main == null)
+                return;
 
             Vector3 speedShake = new Vector3(0.2f * Mathf.Cos(10 * Time.time), 0.1f * Mathf.Sin(16 * Time.time), 0);
-            if (!m_ShakeEnabled) 
+            if (!m_ShakeEnabled)
             {
                 speedShake = Vector3.zero;
             }
+
             Vector3 camPos = new Vector3(0, 20, -30);
-            camPos.x += .6f*PlayerPlane.m_Main.transform.position.x;
+            camPos.x += .6f * PlayerPlane.m_Main.transform.position.x;
             camPos.y += .3f * PlayerPlane.m_Main.transform.position.y;
+
             transform.position = camPos + ShakeOffset + speedShake;
+
+            /* Vector3 finalPosition = Vector3.zero;
+             Quaternion finalRotation = Quaternion.identity;
+
+             Vector3 ShakeOffset = Vector3.zero;
+             float shakeSin = Mathf.Cos(30 * Time.time) * Mathf.Clamp(m_ShakeTimer, 0, 0.5f);
+             float shakeCos = Mathf.Sin(50 * Time.time) * Mathf.Clamp(m_ShakeTimer, 0, 0.5f);
+             ShakeOffset = new Vector3(m_ShakeRadius * shakeCos, 0, m_ShakeRadius * shakeSin);
+
+
+
+
+             //if (GameControl.m_Current.m_GameState == GameControl.State_Start)
+             //{
+             //    m_CameraMoveLerp += 0.5f * Time.deltaTime;
+             //    m_CameraMoveLerp = Mathf.Clamp(m_CameraMoveLerp, 0, 1);
+             //    Vector3 camPos = new Vector3(0, 3.5f, -20f+ m_CameraMoveLerp*10);
+             //    m_CamOffset = Vector3.Lerp(m_CamOffset, camPos, m_CameraMoveLerp);
+             //    GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 70, 5 * Time.deltaTime);
+
+             //    transform.position = PlayerCar.m_Current.transform.position + m_CamOffset + ShakeOffset;
+             //}
+             //if (GameControl.m_Current.m_GameState == GameControl.State_Win)
+             //{
+                 //print("win");
+                 //m_CameraMoveLerp += 0.2f * Time.deltaTime;
+                 //m_CameraMoveLerp = Mathf.Clamp(m_CameraMoveLerp, 0, 1);
+                 //Vector3 camPos = new Vector3(0, 3.5f, -6f);
+                 //m_CamOffset = Vector3.Lerp(camPos, new Vector3(0, 5.5f, -20f), m_CameraMoveLerp);
+                 //GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 50, 1 * Time.deltaTime);
+
+                 //transform.position += 30*Time.deltaTime * Vector3.forward;
+
+                 //Vector3 camPos = EnemyCar.m_Current.m_WreckObject.transform.position+ new Vector3(0, 3.5f, -12f);
+                 //transform.position = Vector3.Lerp(transform.position, camPos, .04f);
+             //}
+             //else
+             //{
+                 //if (m_CameraMod == 1)
+                 //{
+                 //    Vector3 camPos = new Vector3(0, 2.5f, -6.5f);
+                 //    m_CamOffset = Vector3.Lerp(m_CamOffset, camPos, 5 * Time.deltaTime);
+                 //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(11, 0, 0), 40 * Time.deltaTime);
+                 //    GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 60, 5 * Time.deltaTime);
+                 //}
+                 //else
+                 //{
+                 //    Vector3 camPos = new Vector3(0, 3.0f, -8.5f);
+                 //    //camPos.x = -0.8f*transform.position.x;
+                 //    m_CamOffset = Vector3.Lerp(m_CamOffset, camPos, 5 * Time.deltaTime);
+                 //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(5, 0, 0), 40 * Time.deltaTime);
+                 //    GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 80, 5 * Time.deltaTime);
+                 //}
+
+
+             //}
+
+             Vector3 speedShake = new Vector3(0.2f * Mathf.Cos(10 * Time.time), 0.1f * Mathf.Sin(16 * Time.time), 0);
+             if (!m_ShakeEnabled) 
+             {
+                 speedShake = Vector3.zero;
+             }
+             Vector3 camPos = new Vector3(0, 20, -30);
+             camPos.x += .6f*PlayerPlane.m_Main.transform.position.x;
+             camPos.y += .3f * PlayerPlane.m_Main.transform.position.y;
+             transform.position = camPos + ShakeOffset + speedShake;*/
         }
 
         public void StartShake(float t, float r)
