@@ -15,7 +15,7 @@ namespace Plane.Gameplay
 
         public GameObject m_ExplodeParticle;
 
-        
+
 
         public static PlayerPlane m_Main;
 
@@ -29,7 +29,7 @@ namespace Plane.Gameplay
 
         }
 
-        
+
 
         // Update is called once per frame
         void Update()
@@ -110,6 +110,20 @@ namespace Plane.Gameplay
 
 
         }
+
+        /*[ServerRpc (RequireOwnership = false)]
+        public void QuandoMorrer (ulong planeId)
+        {
+            ulong clientId = GetClientIdFromPlaneId(planeId);
+        }
+
+        public void GetClientIdFromPlaneId()
+        {
+
+        }*/
+
+
+
         private void OnCollisionEnter(Collision collision)
         {
             
@@ -119,50 +133,92 @@ namespace Plane.Gameplay
         {
             if (!IsOwner)
             {
-                Destroy(this.GetComponentInChildren<Camera>().gameObject);
-                //Destroy(this);
+                var camera = GetComponentInChildren<Camera>();
+                if (camera != null)
+                {
+                    Destroy(camera.gameObject);
+                }
+                else
+                {
+                    Debug.LogWarning("Câmera não encontrada no avião do jogador não-dono.");
+                }
             }
             else
             {
-                if (IsServer)
+                if (!IsOwner)
                 {
-                    /*
-                GetComponent<Rigidbody>().isKinematic = true;
-                Invoke("AlteraPos", 3f);
-                */
-
-                    // Corrigido: usar dicionário para obter índice do jogador
-                    int index = 0;
-                    foreach (var kvp in NetworkManager.Singleton.ConnectedClients)
+                    Destroy(this.GetComponentInChildren<Camera>().gameObject);
+                }
+                else
+                {
+                    if (IsServer)
                     {
-                        if (kvp.Key == OwnerClientId)
-                            break;
-                        index++;
+                        if (NetworkManager.Singleton == null)
+                        {
+                            Debug.LogError("NetworkManager.Singleton está NULL!");
+                            return;
+                        }
+
+                        var clientes = NetworkManager.Singleton.ConnectedClients;
+                        if (clientes == null)
+                        {
+                            Debug.LogError("ConnectedClients está NULL!");
+                            return;
+                        }
+
+                        int index = 0;
+                        bool found = false;
+
+                        foreach (var kvp in clientes)
+                        {
+                            if (kvp.Key == OwnerClientId)
+                            {
+                                found = true;
+                                break;
+                            }
+                            index++;
+                        }
+
+                        if (!found)
+                        {
+                            Debug.LogWarning("OwnerClientId não encontrado. Usando índice 0 como fallback.");
+                            index = 0;
+                        }
+
+                        Vector3[] posicoesIniciais = new Vector3[]
+                        {
+                            new Vector3(-15, 10, 0),
+                            new Vector3(15, 10, 0),
+                            new Vector3(-15, 25, 0),
+                            new Vector3(15, 25, 0),
+                            new Vector3(0, 30, 0)
+                        };
+
+                        Debug.Log($"Index: {index}, Total Posições: {posicoesIniciais.Length}");
+
+                        if (index >= 0 && index < posicoesIniciais.Length)
+                        {
+                            transform.position = posicoesIniciais[index];
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Índice inválido: {index}. Posição padrão usada.");
+                            transform.position = new Vector3(0, 15, 0);
+                        }
                     }
 
-                    // Posições pré-definidas para até 4 jogadores
-                    Vector3[] posicoesIniciais = new Vector3[]
+                    var rb = GetComponent<Rigidbody>();
+                    if (rb != null)
                     {
-                       new Vector3(-15, 10, 0),
-                       new Vector3(15, 10, 0),
-                       new Vector3(-15, 25, 0),
-                       new Vector3(15, 25, 0)
-                    };
-
-                    if (index >= 0 && index < posicoesIniciais.Length)
-                    {
-                        transform.position = posicoesIniciais[index];
+                        rb.isKinematic = false;
                     }
                     else
                     {
-                        transform.position = new Vector3(0, 15, 0); // posição fallback
+                        Debug.LogWarning("Rigidbody está faltando no Player!");
                     }
                 }
-                
-                GetComponent<Rigidbody>().isKinematic = false;
-
             }
-            base.OnNetworkSpawn();
+                base.OnNetworkSpawn();
         }
 
         public void AlteraPos()
