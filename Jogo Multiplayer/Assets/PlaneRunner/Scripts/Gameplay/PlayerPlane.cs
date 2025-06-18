@@ -94,6 +94,7 @@ namespace Plane.Gameplay
                 {
                     GameObject obj = Instantiate(m_ExplodeParticle);
                     obj.transform.position = transform.position;
+                    HandleExplosionServerRpc(transform.position);
                 }
 
                 if (IsOwner)
@@ -111,16 +112,21 @@ namespace Plane.Gameplay
 
         }
 
-        /*[ServerRpc (RequireOwnership = false)]
-        public void QuandoMorrer (ulong planeId)
+        [ServerRpc(RequireOwnership = false)]
+        public void HandleExplosionServerRpc(Vector3 pos)
         {
-            ulong clientId = GetClientIdFromPlaneId(planeId);
+            HandleExplosionClientRpc(pos);
+            NetworkObject.Despawn(true); // Desativa para todos os jogadores
         }
 
-        public void GetClientIdFromPlaneId()
+        [ClientRpc]
+        public void HandleExplosionClientRpc(Vector3 pos)
         {
-
-        }*/
+            if (m_ExplodeParticle != null)
+            {
+                GameObject obj = Instantiate(m_ExplodeParticle, pos, Quaternion.identity);
+            }
+        }
 
 
 
