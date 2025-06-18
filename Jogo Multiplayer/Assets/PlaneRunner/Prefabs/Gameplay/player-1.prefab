@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2942566308
+  GlobalObjectIdHash: 3482509631
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -75,8 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Angle: {x: 0, y: 0}
   m_Base: {fileID: 4728112663299037593}
-  Lose_UI: {fileID: 4848577152651246058, guid: 30524ced290c8ac4293fb8a7f41646a4, type: 3}
-  Win_UI: {fileID: 5779698780734322185, guid: 57e4794a23963e3498317d91de0f8be2, type: 3}
+  Lose_UI: {fileID: 7333596680662898614}
+  Win_UI: {fileID: 1599657693856456412}
   m_ExplodeParticle: {fileID: 2302704012981483216, guid: f9e49c19e36969b4c90fb49a262b4e28, type: 3}
 --- !u!135 &5050531998232240612
 SphereCollider:
@@ -9948,6 +9948,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4987439372089130122, guid: 30524ced290c8ac4293fb8a7f41646a4, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253479800335451322, guid: 30524ced290c8ac4293fb8a7f41646a4, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6514743819086636462, guid: 30524ced290c8ac4293fb8a7f41646a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9993,6 +10001,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30524ced290c8ac4293fb8a7f41646a4, type: 3}
+--- !u!1 &7333596680662898614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4848577152651246058, guid: 30524ced290c8ac4293fb8a7f41646a4, type: 3}
+  m_PrefabInstance: {fileID: 2778633456727322204}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9000079455618321394 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6514743819086636462, guid: 30524ced290c8ac4293fb8a7f41646a4, type: 3}
@@ -10046,6 +10059,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3650470713512877404, guid: 57e4794a23963e3498317d91de0f8be2, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5779698780734322185, guid: 57e4794a23963e3498317d91de0f8be2, type: 3}
       propertyPath: m_Name
       value: Win_UI
@@ -10054,11 +10071,20 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8094249315861779396, guid: 57e4794a23963e3498317d91de0f8be2, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57e4794a23963e3498317d91de0f8be2, type: 3}
+--- !u!1 &1599657693856456412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5779698780734322185, guid: 57e4794a23963e3498317d91de0f8be2, type: 3}
+  m_PrefabInstance: {fileID: 5045928623587305685}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5223145331420592864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1043403928096854581, guid: 57e4794a23963e3498317d91de0f8be2, type: 3}

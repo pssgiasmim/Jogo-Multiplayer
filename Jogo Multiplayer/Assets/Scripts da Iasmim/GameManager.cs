@@ -7,8 +7,8 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
-    public GameObject Lose_UI;
-    public GameObject Win_UI;
+    //public GameObject Lose_UI;
+    //public GameObject Win_UI;
 
     // Lista dos aviões vivos
     private List<NetworkObject> alivePlanes = new List<NetworkObject>();
@@ -53,35 +53,40 @@ public class GameManager : NetworkBehaviour
             alivePlanes.Remove(deadPlane);
 
         // Envia só para o cliente que morreu
-        SendGameOverClientRpc(deadPlane.OwnerClientId);
+        ShowLoseScreenClientRpc(deadPlane.OwnerClientId);
 
         // Se só sobrou 1 avião vivo
         if (alivePlanes.Count == 1)
         {
             var winner = alivePlanes[0];
-            SendVictoryClientRpc(winner.OwnerClientId);
+            ShowWinScreenClientRpc(winner.OwnerClientId);
         }
     }
 
     // RPC: Mostra Game Over para o jogador que morreu
     [ClientRpc]
-    void SendGameOverClientRpc(ulong deadClientId, ClientRpcParams rpcParams = default)
+    void ShowLoseScreenClientRpc(ulong deadClientId, ClientRpcParams rpcParams = default)
     {
         if (NetworkManager.Singleton.LocalClientId == deadClientId)
         {
-            if (Lose_UI != null)
-                Lose_UI.SetActive(true);
+            var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerPlane>();
+            if (player != null && player.Lose_UI != null) 
+            {
+                player.Lose_UI.SetActive(true);
+            }
+                
         }
     }
 
     // RPC: Mostra Vitória para o último jogador
     [ClientRpc]
-    void SendVictoryClientRpc(ulong winnerClientId, ClientRpcParams rpcParams = default)
+    void ShowWinScreenClientRpc(ulong winnerClientId, ClientRpcParams rpcParams = default)
     {
         if (NetworkManager.Singleton.LocalClientId == winnerClientId)
         {
-            if (Win_UI != null)
-                Win_UI.SetActive(true);
+            var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerPlane>();
+            if (player != null && player.Win_UI != null)
+                player.Win_UI.SetActive(true);
         }
     }
 }

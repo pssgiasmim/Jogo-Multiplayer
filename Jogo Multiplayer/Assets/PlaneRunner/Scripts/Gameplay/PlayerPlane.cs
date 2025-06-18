@@ -39,6 +39,7 @@ namespace Plane.Gameplay
             float InputX = 0, InputY = 0;
             if (Input.GetKey(KeyCode.LeftArrow))
             {
+                //Lose_UI.SetActive(true); 
                 InputX = -1;
             }
             else if (Input.GetKey(KeyCode.RightArrow))
@@ -116,7 +117,7 @@ namespace Plane.Gameplay
         public void HandleExplosionServerRpc(Vector3 pos)
         {
             HandleExplosionClientRpc(pos);
-            NetworkObject.Despawn(true); // Desativa para todos os jogadores
+          NetworkObject.Despawn(true); // Desativa para todos os jogadores
         }
 
         [ClientRpc]
@@ -124,10 +125,37 @@ namespace Plane.Gameplay
         {
             if (m_ExplodeParticle != null)
             {
+
+                // SetActive(true);
+                ShowLoseScreenClientRpc(this.NetworkObjectId);
                 GameObject obj = Instantiate(m_ExplodeParticle, pos, Quaternion.identity);
             }
         }
+        [ClientRpc]
+        void ShowLoseScreenClientRpc(ulong deadClientId, ClientRpcParams rpcParams = default)
+        {
+            if (NetworkManager.Singleton.LocalClientId == deadClientId)
+            {
+                var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerPlane>();
+                if (player != null && player.Lose_UI != null)
+                {
+                    player.Lose_UI.SetActive(true);
+                }
 
+            }
+        }
+
+        // RPC: Mostra Vitória para o último jogador
+        [ClientRpc]
+        void ShowWinScreenClientRpc(ulong winnerClientId, ClientRpcParams rpcParams = default)
+        {
+            if (NetworkManager.Singleton.LocalClientId == winnerClientId)
+            {
+                var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerPlane>();
+                if (player != null && player.Win_UI != null)
+                    player.Win_UI.SetActive(true);
+            }
+        }
 
 
         private void OnCollisionEnter(Collision collision)
@@ -233,6 +261,27 @@ namespace Plane.Gameplay
             GetComponent<Rigidbody>().isKinematic = false;
         }
 
+        public void ShowLoseUI()
+        {
+            if (Lose_UI != null)
+                Lose_UI.SetActive(true);
+        }
+
+        public void ShowWinUI()
+        {
+            if (Win_UI != null)
+                Win_UI.SetActive(true);
+        }
+
+        public static PlayerPlane GetLocalPlayerPlane()
+        {
+            foreach (var plane in FindObjectsOfType<PlayerPlane>())
+            {
+                if (plane.IsOwner)
+                    return plane;
+            }
+            return null;
+        }
     }
 }
 
