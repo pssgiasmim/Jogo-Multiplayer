@@ -7,14 +7,13 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
-    //public GameObject Lose_UI;
-    //public GameObject Win_UI;
-
-    // Lista dos aviões vivos
     private List<NetworkObject> alivePlanes = new List<NetworkObject>();
 
-    
-    
+    private NetworkVariable<bool> isGameOver = new NetworkVariable<bool>(
+        false,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
 
     private void Awake()
     {
@@ -25,68 +24,62 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            // Espera os jogadores spawnarem
-            Invoke("RegisterAllPlanes", 1f);
+            Invoke(nameof(RegisterAllPlanes), 1f);
         }
     }
 
-    void RegisterAllPlanes()
+    private void RegisterAllPlanes()
     {
-        PlayerPlane[] planes = FindObjectsOfType<PlayerPlane>();
-        foreach (var plane in planes)
+        alivePlanes.Clear();
+
+        PlayerPlane[] players = FindObjectsOfType<PlayerPlane>();
+        foreach (var plane in players)
         {
             alivePlanes.Add(plane.GetComponent<NetworkObject>());
         }
-
-       
-
     }
 
-    
-
-    // Chamado por um PlayerPlane ao morrer
     public void ReportDeath(NetworkObject deadPlane)
     {
-        if (!IsServer) return;
+        if (!IsServer || isGameOver.Value)
+            return;
 
         if (alivePlanes.Contains(deadPlane))
+        {
             alivePlanes.Remove(deadPlane);
+        }
 
-        // Envia só para o cliente que morreu
-        ShowLoseScreenClientRpc(deadPlane.OwnerClientId);
+        // Mostra tela de derrota apenas para o jogador que morreu
+        ShowResultClientRpc(deadPlane.OwnerClientId, false);
 
-        // Se só sobrou 1 avião vivo
+        // Se sobrou só um jogador, ele venceu
         if (alivePlanes.Count == 1)
         {
             var winner = alivePlanes[0];
-            ShowWinScreenClientRpc(winner.OwnerClientId);
+            isGameOver.Value = true;
+
+            ShowResultClientRpc(winner.OwnerClientId, true);
         }
     }
 
-    // RPC: Mostra Game Over para o jogador que morreu
     [ClientRpc]
-    void ShowLoseScreenClientRpc(ulong deadClientId, ClientRpcParams rpcParams = default)
+    private void ShowResultClientRpc(ulong clientId, bool isWinner)
     {
-        if (NetworkManager.Singleton.LocalClientId == deadClientId)
+        if (NetworkManager.Singleton.LocalClientId == clientId)
         {
-            var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerPlane>();
-            if (player != null && player.Lose_UI != null) 
+            if (isWinner)
             {
-                player.Lose_UI.SetActive(true);
+                if (Instance != null && Instance.Win_UI != null)
+                    Instance.Win_UI.SetActive(true);
             }
-                
+            else
+            {
+                if (Instance != null && Instance.Lose_UI != null)
+                    Instance.Lose_UI.SetActive(true);
+            }
         }
     }
 
-    // RPC: Mostra Vitória para o último jogador
-    [ClientRpc]
-    void ShowWinScreenClientRpc(ulong winnerClientId, ClientRpcParams rpcParams = default)
-    {
-        if (NetworkManager.Singleton.LocalClientId == winnerClientId)
-        {
-            var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerPlane>();
-            if (player != null && player.Win_UI != null)
-                player.Win_UI.SetActive(true);
-        }
-    }
+    [SerializeField] public GameObject Win_UI;
+    [SerializeField] public GameObject Lose_UI;
 }

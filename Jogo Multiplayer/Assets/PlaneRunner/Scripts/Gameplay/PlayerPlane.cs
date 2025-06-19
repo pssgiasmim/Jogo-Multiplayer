@@ -100,7 +100,8 @@ namespace Plane.Gameplay
 
                 if (IsOwner)
                 {
-                    GameManager.Instance.ReportDeath(GetComponent<NetworkObject>());
+                    var gameManager = FindObjectOfType<GameManager>();
+                    gameManager.ReportDeath(GetComponent<NetworkObject>());
                 }
                 gameObject.SetActive(false);
 
