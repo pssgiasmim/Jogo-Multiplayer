@@ -128,11 +128,12 @@ namespace Plane.Gameplay
             {
 
                 // SetActive(true);
-                ShowLoseScreenClientRpc(this.NetworkObjectId);
+                //ShowLoseScreenClientRpc(this.NetworkObjectId);
                 GameObject obj = Instantiate(m_ExplodeParticle, pos, Quaternion.identity);
             }
         }
-        [ClientRpc]
+
+        /*[ClientRpc]
         void ShowLoseScreenClientRpc(ulong deadClientId, ClientRpcParams rpcParams = default)
         {
             if (NetworkManager.Singleton.LocalClientId == deadClientId)
@@ -144,9 +145,9 @@ namespace Plane.Gameplay
                 }
 
             }
-        }
+        }*/
 
-        // RPC: Mostra Vitória para o último jogador
+        /*// RPC: Mostra Vitória para o último jogador
         [ClientRpc]
         void ShowWinScreenClientRpc(ulong winnerClientId, ClientRpcParams rpcParams = default)
         {
@@ -156,7 +157,7 @@ namespace Plane.Gameplay
                 if (player != null && player.Win_UI != null)
                     player.Win_UI.SetActive(true);
             }
-        }
+        }*/
 
 
         private void OnCollisionEnter(Collision collision)

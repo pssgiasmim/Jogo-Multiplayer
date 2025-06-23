@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Plane.Gameplay;
@@ -52,7 +52,7 @@ public class GameManager : NetworkBehaviour
         // Mostra tela de derrota apenas para o jogador que morreu
         ShowResultClientRpc(deadPlane.OwnerClientId, false);
 
-        // Se sobrou s� um jogador, ele venceu
+        // Se sobrou só um jogador, ele venceu
         if (alivePlanes.Count == 1)
         {
             var winner = alivePlanes[0];
